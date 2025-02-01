@@ -1,154 +1,361 @@
-<header class="header">
-    <div class="container">
-        <nav class="nav">
-            <a href="#" class="nav-brand">
-                <i class="fas fa-calendar-alt"></i>
-                Digital University
-            </a>
-            <div class="nav-links">
-                <!-- Кнопка "Добавить в расписание" -->
-                <a href="javascript:void(0)" id="openModalBtn" class="nav-link button-add">
-                    <i class="fas fa-plus-circle"></i> Додати в розклад
-                </a>
-            </div>
-        </nav>
-    </div>
-</header>
-
-<!-- Модальное окно добавления -->
+<!-- Головне модальне вікно -->
 <div id="modal" class="modal">
+    <!-- Контейнер вмісту модального вікна -->
     <div class="modal-content">
-        <span id="closeModalBtn" class="close-btn">&times;</span>
-        <h2>Додати пару</h2>
-        <form action="/add-schedule" method="POST">
-            <!-- Форма с полями -->
-            <div class="form-group">
-                <label for="week">Неделя</label>
-                <select id="week" name="week" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select>
+        <!-- Шапка модального вікна -->
+        <div class="modal-header">
+            <h2 class="modal-title">
+                <i class="fas fa-calendar-plus"></i>
+                Додати пару
+            </h2>
+            <!-- Кнопка закриття -->
+            <button id="closeModalBtn" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Форма для додавання пари -->
+        <form action="/add-schedule" method="POST" class="schedule-form">
+            <!-- Сітка для полів форми -->
+            <div class="form-grid">
+                <!-- Вибір тижня -->
+                <div class="form-group">
+                    <label for="week">
+                        <i class="fas fa-calendar-week"></i>
+                        Тиждень
+                    </label>
+                    <select id="week" name="week" required>
+                        <option value="1">Перший тиждень</option>
+                        <option value="2">Другий тиждень</option>
+                    </select>
+                </div>
+
+                <!-- Вибір дня тижня -->
+                <div class="form-group">
+                    <label for="day">
+                        <i class="fas fa-calendar-day"></i>
+                        День тижня
+                    </label>
+                    <select id="day" name="day" required>
+                        <option value="1">Понеділок</option>
+                        <option value="2">Вівторок</option>
+                        <option value="3">Середа</option>
+                        <option value="4">Четвер</option>
+                        <option value="5">П'ятниця</option>
+                        <option value="6">Субота</option>
+                        <option value="7">Неділя</option>
+                    </select>
+                </div>
+
+                <!-- Вибір часу пари -->
+                <div class="form-group">
+                    <label for="time">
+                        <i class="fas fa-clock"></i>
+                        Час пари
+                    </label>
+                    <select id="time" name="time" required>
+                        <option value="1">1 пара (8:30 - 10:05)</option>
+                        <option value="2">2 пара (10:25 - 12:00)</option>
+                        <option value="3">3 пара (12:20 - 13:55)</option>
+                        <option value="4">4 пара (14:15 - 15:50)</option>
+                        <option value="5">5 пара (16:10 - 17:45)</option>
+                    </select>
+                </div>
+
+                <!-- Введення назви предмету -->
+                <div class="form-group">
+                    <label for="subject">
+                        <i class="fas fa-book"></i>
+                        Назва пари
+                    </label>
+                    <input type="text" id="subject" name="subject" required placeholder="Введіть назву предмету">
+                </div>
+
+                <!-- Вибір типу пари -->
+                <div class="form-group">
+                    <label for="type">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Тип пари
+                    </label>
+                    <select id="type" name="type" required>
+                        <option value="lecture">Лекція</option>
+                        <option value="practice">Практика</option>
+                    </select>
+                </div>
+
+                <!-- Введення аудиторії -->
+                <div class="form-group">
+                    <label for="location">
+                        <i class="fas fa-location-dot"></i>
+                        Аудиторія
+                    </label>
+                    <input type="text" id="location" name="location" required placeholder="Введіть номер аудиторії або 'Дистанційна'">
+                </div>
+
+                <!-- Введення викладача -->
+                <div class="form-group">
+                    <label for="teacher">
+                        <i class="fas fa-user-tie"></i>
+                        Викладач
+                    </label>
+                    <input type="text" id="teacher" name="teacher" required placeholder="Введіть ПІБ викладача">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="day">День тижня</label>
-                <select id="day" name="day" required>
-                    <option value="1">Понеділок</option>
-                    <option value="2">Вівторок</option>
-                    <option value="3">Середа</option>
-                    <option value="4">Четвер</option>
-                    <option value="5">П'ятниця</option>
-                    <option value="6">Субота</option>
-                    <option value="7">Неділя</option>
-                </select>
+            <!-- Кнопки дій форми -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">
+                    <i class="fas fa-times"></i>
+                    Скасувати
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Додати пару
+                </button>
             </div>
-
-            <!-- Остальные поля -->
-
-            <button type="submit" class="submit-btn">Добавить</button>
         </form>
     </div>
 </div>
 
-<script>
-    // Получаем элементы
-    const openModalBtn = document.getElementById("openModalBtn");
-    const modal = document.getElementById("modal");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-
-    // Открытие модального окна
-    openModalBtn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // Закрытие модального окна
-    closeModalBtn.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // Закрытие модального окна при клике вне области модалки
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
-
 <style>
-    .button-add {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.75rem 1.5rem;
-        background: var(--primary);
-        color: white;
-        font-weight: 600;
-        border-radius: 2rem;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-        transition: all 0.3s ease;
-        text-decoration: none;
-    }
-
-    .button-add:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(79, 70, 229, 0.3);
-    }
-
-    .button-add i {
-        margin-right: 0.5rem;
-    }
-
+    /* Стилі для модального вікна */
     .modal {
-        display: none; /* Скрыть по умолчанию */
-        position: fixed;
-        z-index: 1;
+        display: none; /* Приховано за замовчуванням */
+        position: fixed; /* Фіксована позиція */
+        z-index: 1000; /* Вище інших елементів */
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
+        background-color: rgba(17, 24, 39, 0.7); /* Напівпрозорий темний фон */
+        backdrop-filter: blur(4px); /* Розмиття фону */
     }
 
+    /* Контейнер вмісту модального вікна */
     .modal-content {
-        background-color: #fff;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px;
+        position: relative;
+        background: white;
+        margin: 2rem auto;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 1rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        transform: translateY(0);
+        animation: modal-slide-down 0.3s ease-out;
     }
 
-    .close-btn {
-        color: #aaa;
-        font-size: 28px;
-        font-weight: bold;
-        position: absolute;
-        top: 10px;
-        right: 15px;
-    }
-
-    .close-btn:hover,
-    .close-btn:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .submit-btn {
-        padding: 10px 20px;
-        background-color: #4CAF50;
+    /* Шапка модального вікна */
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+        background: var(--primary);
         color: white;
-        border: none;
-        cursor: pointer;
     }
 
-    .submit-btn:hover {
-        background-color: #45a049;
+    /* Заголовок модального вікна */
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0;
+    }
+
+    /* Кнопка закриття */
+    .close-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s;
+    }
+
+    /* Ховер-ефект для кнопки закриття */
+    .close-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.1);
+    }
+
+    /* Стилі форми розкладу */
+    .schedule-form {
+        padding: 2rem;
+    }
+
+    /* Сітка для полів форми */
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Група форми */
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    /* Лейбли полів */
+    .form-group label {
+        font-weight: 500;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Іконки в лейблах */
+    .form-group label i {
+        color: var(--primary);
+    }
+
+    /* Поля введення та селекти */
+    .form-group input,
+    .form-group select {
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+
+    /* Фокус на полях введення */
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    /* Плейсхолдери */
+    .form-group input::placeholder {
+        color: #9CA3AF;
+    }
+
+    /* Контейнер для кнопок */
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    /* Загальні стилі кнопок */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+    }
+
+    /* Іконки в кнопках */
+    .btn i {
+        font-size: 1rem;
+    }
+
+    /* Основна кнопка */
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+    }
+
+    /* Ховер для основної кнопки */
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    /* Другорядна кнопка */
+    .btn-secondary {
+        background: #E5E7EB;
+        color: #4B5563;
+    }
+
+    /* Ховер для другорядної кнопки */
+    .btn-secondary:hover {
+        background: #D1D5DB;
+        transform: translateY(-2px);
+    }
+
+    /* Анімація появи модального вікна */
+    @keyframes modal-slide-down {
+        from {
+            transform: translateY(-10%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Адаптивність для мобільних пристроїв */
+    @media (max-width: 768px) {
+        .modal-content {
+            margin: 1rem;
+            width: auto;
+        }
+
+        .schedule-form {
+            padding: 1rem;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
     }
 </style>
+
+<script>
+    // Отримання посилань на елементи DOM
+    const modal = document.getElementById("modal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const openModalBtn = document.getElementById("openModalBtn");
+
+    // Функція закриття модального вікна
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // Функція відкриття модального вікна
+    function openModal() {
+        modal.style.display = "block";
+    }
+
+    // Додавання обробників подій
+    openModalBtn.addEventListener("click", openModal);
+    closeModalBtn.addEventListener("click", closeModal);
+    cancelBtn.addEventListener("click", closeModal);
+
+    // Закриття модального вікна при кліку поза ним
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+</script>
