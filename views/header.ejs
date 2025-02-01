@@ -1,0 +1,154 @@
+<header class="header">
+    <div class="container">
+        <nav class="nav">
+            <a href="#" class="nav-brand">
+                <i class="fas fa-calendar-alt"></i>
+                Digital University
+            </a>
+            <div class="nav-links">
+                <!-- Кнопка "Добавить в расписание" -->
+                <a href="javascript:void(0)" id="openModalBtn" class="nav-link button-add">
+                    <i class="fas fa-plus-circle"></i> Додати в розклад
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Модальное окно добавления -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="closeModalBtn" class="close-btn">&times;</span>
+        <h2>Додати пару</h2>
+        <form action="/add-schedule" method="POST">
+            <!-- Форма с полями -->
+            <div class="form-group">
+                <label for="week">Неделя</label>
+                <select id="week" name="week" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="day">День тижня</label>
+                <select id="day" name="day" required>
+                    <option value="1">Понеділок</option>
+                    <option value="2">Вівторок</option>
+                    <option value="3">Середа</option>
+                    <option value="4">Четвер</option>
+                    <option value="5">П'ятниця</option>
+                    <option value="6">Субота</option>
+                    <option value="7">Неділя</option>
+                </select>
+            </div>
+
+            <!-- Остальные поля -->
+
+            <button type="submit" class="submit-btn">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Получаем элементы
+    const openModalBtn = document.getElementById("openModalBtn");
+    const modal = document.getElementById("modal");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+
+    // Открытие модального окна
+    openModalBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // Закрытие модального окна
+    closeModalBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Закрытие модального окна при клике вне области модалки
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<style>
+    .button-add {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+        border-radius: 2rem;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .button-add:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(79, 70, 229, 0.3);
+    }
+
+    .button-add i {
+        margin-right: 0.5rem;
+    }
+
+    .modal {
+        display: none; /* Скрыть по умолчанию */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .close-btn {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+</style>
