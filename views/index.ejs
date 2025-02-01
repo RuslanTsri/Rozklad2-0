@@ -295,6 +295,48 @@
                 padding: 1rem 0.75rem;
             }
         }
+
+        .lesson-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(79, 70, 229, 0.1);
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            background: white;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .edit-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        }
+
+        .delete-button:hover {
+            background: #ef4444;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+        }
+
+        .time-slots-info {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
@@ -320,15 +362,24 @@
             </tr>
             </thead>
             <tbody>
-            <% schedule.timeSlots.forEach((slot, index) => { %>
+            <% const timeSlots = [
+                "8:30 - 9:50",
+                "10:00 - 11:20",
+                "11:40 - 13:00",
+                "13:30 - 14:50",
+                "15:00 - 16:20",
+                "16:30 - 17:50",
+                "18:00 - 19:20"
+            ] %>
+            <% timeSlots.forEach((time, index) => { %>
                 <tr>
                     <td class="time-slot">
                         <div class="time-number"><%= index + 1 %></div>
-                        <div class="time-range"><%= slot.time %></div>
+                        <div class="time-range"><%= time %></div>
                     </td>
                     <% for (let i = 0; i < 7; i++) { %>
                         <td>
-                            <% if (slot.lessons[i]) { %>
+                            <% if (slot?.lessons?.[i]) { %>
                                 <div class="lesson">
                                     <div class="lesson-subject"><%= slot.lessons[i].subject %></div>
                                     <div class="lesson-type">
@@ -348,6 +399,14 @@
                                             <span class="group-tag"><%= group %></span>
                                         <% }) %>
                                     </div>
+                                    <div class="lesson-actions">
+                                        <button class="action-button edit-button" title="Редагувати">
+                                            <i class="fas fa-pen"></i>
+                                        </button>
+                                        <button class="action-button delete-button" title="Видалити">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             <% } %>
                         </td>
@@ -356,6 +415,12 @@
             <% }) %>
             </tbody>
         </table>
+    </div>
+    <div class="time-slots-info">
+        <p>Розклад дзвінків:</p>
+        <% timeSlots.forEach((time, index) => { %>
+            <p><%= index + 1 %> пара: <%= time %></p>
+        <% }) %>
     </div>
 </main>
 <footer class="footer">
