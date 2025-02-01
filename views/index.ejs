@@ -262,7 +262,7 @@
 <body>
 
 <!-- Включаем хедер -->
-<%- include('header') %>
+<%- include('partials/header') %>
 
 <main class="container">
     <h1 class="page-title">Розклад групи <%= schedule.groupName %></h1>
@@ -299,13 +299,16 @@
                                 <div class="lesson">
                                     <div class="lesson-subject"><%= slot.lessons[i].subject %></div>
                                     <div class="lesson-type">
-                                        <i class="fas fa-chalkboard-teacher"></i> <%= slot.lessons[i].type %>
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <%= slot.lessons[i].type %>
                                     </div>
                                     <div class="lesson-room">
-                                        <i class="fas fa-door-open"></i> <%= slot.lessons[i].room %>
+                                        <i class="fas fa-door-open"></i>
+                                        <%= slot.lessons[i].room %>
                                     </div>
                                     <div class="lesson-teacher">
-                                        <i class="fas fa-user"></i> <%= slot.lessons[i].teacher %>
+                                        <i class="fas fa-user-tie"></i>
+                                        <%= slot.lessons[i].teacher %>
                                     </div>
                                     <div class="lesson-groups">
                                         <% slot.lessons[i].groups.forEach(group => { %>
@@ -322,11 +325,8 @@
         </table>
     </div>
 </main>
+<%- include('partials/footer') %>
 
-<footer class="footer">
-    <div class="container">
-        <p>© 2025 Digital University UA</p>
-    </div>
-</footer>
+
 </body>
 </html>

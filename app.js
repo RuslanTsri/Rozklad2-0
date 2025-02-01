@@ -20,9 +20,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Используем роуты
 app.use('/', scheduleRoutes);  // Подключаем маршруты для расписания
-// Используем стили
-app.use(express.static('public'));
 
+app.locals.partials = {
+    header: 'partials/header',
+    footer: 'partials/footer'
+};
 
 // Запуск сервера
 const PORT = 3000;
